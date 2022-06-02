@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// An object which can be embedded into a Quill document.
 ///
 /// See also:
@@ -35,4 +37,54 @@ class BlockEmbed extends Embeddable {
 
   static const String videoType = 'video';
   static BlockEmbed video(String videoUrl) => BlockEmbed(videoType, videoUrl);
+
+  static const String imageWithInfoType = 'image_with_info';
+  static BlockEmbed imageWithInfo(ImageWithInfo imageinfo) {
+    final map = imageinfo.toMap();
+    final jsonString = jsonEncode(map);
+    final be = BlockEmbed(imageWithInfoType, jsonString);
+    return be;
+  }
+}
+
+class ImageWithInfo {
+  ImageWithInfo({
+    required this.imageUrl,
+    required this.width,
+    required this.height,
+  });
+  final String imageUrl;
+  final int width;
+  final int height;
+
+  // ignore: sort_constructors_first
+  factory ImageWithInfo.fromJson(String jsonString) {
+    var imageUrl = '';
+    final Map map = jsonDecode(jsonString);
+    if (map.containsKey('imageUrl')) {
+      imageUrl = map['imageUrl'];
+    }
+
+    var width = 0;
+    var height = 0;
+    if (map.containsKey('width')) {
+      width = map['width'];
+    }
+    if (map.containsKey('height')) {
+      height = map['height'];
+    }
+    return ImageWithInfo(
+      imageUrl: imageUrl,
+      width: width,
+      height: height,
+    );
+  }
+
+  Map toMap() {
+    final map = {};
+    map['imageUrl'] = imageUrl;
+    map['width'] = width;
+    map['height'] = height;
+    return map;
+  }
 }
