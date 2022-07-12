@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 /// An object which can be embedded into a Quill document.
 ///
@@ -52,10 +53,17 @@ class ImageWithInfo {
     required this.imageUrl,
     required this.width,
     required this.height,
+    required this.fileKey,
   });
   final String imageUrl;
   final int width;
   final int height;
+  final String fileKey;
+
+  String cssClassName() {
+    var hash = md5.convert(utf8.encode(fileKey)).toString();
+    return "cls_" + hash;
+  }
 
   // ignore: sort_constructors_first
   factory ImageWithInfo.fromJson(String jsonString) {
@@ -73,10 +81,16 @@ class ImageWithInfo {
     if (map.containsKey('height')) {
       height = map['height'];
     }
+    var fileKey = '';
+    if (map.containsKey('fileKey')) {
+      fileKey = map['fileKey'];
+    }
+
     return ImageWithInfo(
       imageUrl: imageUrl,
       width: width,
       height: height,
+      fileKey: fileKey,
     );
   }
 
@@ -85,6 +99,7 @@ class ImageWithInfo {
     map['imageUrl'] = imageUrl;
     map['width'] = width;
     map['height'] = height;
+    map['fileKey'] = fileKey;
     return map;
   }
 }
