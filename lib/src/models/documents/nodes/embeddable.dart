@@ -46,6 +46,24 @@ class BlockEmbed extends Embeddable {
     final be = BlockEmbed(imageWithInfoType, jsonString);
     return be;
   }
+
+  static const String formulaType = 'formula';
+  static BlockEmbed formula(String formula) => BlockEmbed(formulaType, formula);
+
+  static const String customType = 'custom';
+  static BlockEmbed custom(CustomBlockEmbed customBlock) =>
+      BlockEmbed(customType, customBlock.toJsonString());
+}
+
+class CustomBlockEmbed extends BlockEmbed {
+  const CustomBlockEmbed(String type, String data) : super(type, data);
+
+  String toJsonString() => jsonEncode(toJson());
+
+  static CustomBlockEmbed fromJsonString(String data) {
+    final embeddable = Embeddable.fromJson(jsonDecode(data));
+    return CustomBlockEmbed(embeddable.type, embeddable.data);
+  }
 }
 
 class ImageWithInfo {
