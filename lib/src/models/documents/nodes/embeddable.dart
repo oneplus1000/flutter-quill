@@ -79,8 +79,8 @@ class ImageWithInfo {
   final String fileKey;
 
   String cssClassName() {
-    var hash = md5.convert(utf8.encode(fileKey)).toString();
-    return "cls_" + hash;
+    final hash = md5.convert(utf8.encode(fileKey)).toString();
+    return 'cls_$hash';
   }
 
   // ignore: sort_constructors_first
