@@ -45,7 +45,7 @@ class TextLine extends StatefulWidget {
 
   final Line line;
   final TextDirection? textDirection;
-  final EmbedBuilder embedBuilder;
+  final EmbedsBuilder embedBuilder;
   final DefaultStyles styles;
   final bool readOnly;
   final QuillController controller;
@@ -141,7 +141,6 @@ class _TextLineState extends State<TextLine> {
           widget.controller,
           embed,
           widget.readOnly,
-          null,
         ),
       );
     }
@@ -189,7 +188,6 @@ class _TextLineState extends State<TextLine> {
               widget.controller,
               child,
               widget.readOnly,
-              null,
             ),
           ),
         );
